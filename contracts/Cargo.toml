@@ -1,0 +1,33 @@
+[workspace]
+resolver = "2"
+members = [
+    "smart-wallet",
+    "session-keys",
+    "spending-limits",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.74"
+authors = ["YOUR_NAME <YOUR_EMAIL>"]
+license = "Apache-2.0"
+repository = "https://github.com/YOUR_USERNAME/stellar-smart-accounts"
+homepage = "https://github.com/YOUR_USERNAME/stellar-smart-accounts"
+
+[workspace.dependencies]
+soroban-sdk = { version = "21.0.0", features = ["testutils"] }
+
+[profile.release]
+opt-level = "z"
+overflow-checks = true
+debug = 0
+strip = "symbols"
+debug-assertions = false
+panic = "abort"
+codegen-units = 1
+lto = true
+
+[profile.release-with-logs]
+inherits = "release"
+debug-assertions = true

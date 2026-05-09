@@ -1,0 +1,14 @@
+# Global owner — reviews all PRs not matched by a more specific rule
+* @YOUR_USERNAME
+
+# Soroban contracts — require extra scrutiny
+/contracts/ @YOUR_USERNAME
+
+# SDK — primary TypeScript package
+/packages/sdk/ @YOUR_USERNAME
+
+# Wallet adapter
+/packages/wallet-adapter/ @YOUR_USERNAME
+
+# CI / release infrastructure
+/.github/ @YOUR_USERNAME
