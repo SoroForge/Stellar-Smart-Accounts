@@ -11,15 +11,15 @@
     "web3",
     "blockchain"
   ],
-  "homepage": "https://github.com//stellar-smart-accounts#readme",
+  "homepage": "https://github.com/SoroForge/stellar-smart-accounts#readme",
   "bugs": {
-    "url": "https://github.com/YOUR_USERNAME/stellar-smart-accounts/issues"
+    "url": "https://github.com/SoroForge/stellar-smart-accounts/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/YOUR_USERNAME/stellar-smart-accounts.git"
+    "url": "https://github.com/SoroForge/stellar-smart-accounts.git"
   },
-  "license": "Apache-2.0",
+  "license": "MIT",
   "workspaces": [
     "packages/*"
   ],

@@ -2,8 +2,14 @@
   "name": "@stellar-smart-accounts/wallet-adapter",
   "version": "0.0.1",
   "description": "Drop-in wallet connector adapter for stellar-smart-accounts (Freighter, xBull, Lobstr)",
-  "keywords": ["stellar", "wallet", "freighter", "adapter", "account-abstraction"],
-  "license": "Apache-2.0",
+  "keywords": [
+    "stellar",
+    "wallet",
+    "freighter",
+    "adapter",
+    "account-abstraction"
+  ],
+  "license": "MIT",
   "type": "module",
   "exports": {
     ".": {
@@ -19,7 +25,9 @@
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsup",
     "clean": "rimraf dist",

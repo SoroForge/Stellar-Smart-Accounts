@@ -1,19 +1,16 @@
-# stellar-smart-accounts
+# Stellar-smart-accounts
 
-> **Account abstraction for the Stellar ecosystem** — smart wallets with multi-sig,
-> social recovery, session keys, and spending limits, built on Soroban smart contracts.
+> **Account abstraction for the Stellar ecosystem** — smart wallets with multi-sig, social recovery,
+> session keys, and spending limits, built on Soroban smart contracts.
 
 <p align="center">
-  <a href="https://github.com/YOUR_USERNAME/stellar-smart-accounts/actions/workflows/ci.yml">
-    <img alt="CI" src="https://github.com/YOUR_USERNAME/stellar-smart-accounts/actions/workflows/ci.yml/badge.svg" />
+  <a href="https://github.com/SoroForge/stellar-smart-accounts/actions/workflows/ci.yml">
+    <img alt="CI" src="https://github.com/SoroForge/stellar-smart-accounts/actions/workflows/ci.yml/badge.svg" />
   </a>
   <a href="https://www.npmjs.com/package/@stellar-smart-accounts/sdk">
     <img alt="npm" src="https://img.shields.io/npm/v/@stellar-smart-accounts/sdk?color=blue" />
   </a>
-  <a href="https://opensource.org/licenses/Apache-2.0">
-    <img alt="License" src="https://img.shields.io/badge/license-Apache%202.0-blue" />
-  </a>
-  <a href="https://github.com/YOUR_USERNAME/stellar-smart-accounts/blob/main/CONTRIBUTING.md">
+  <a href="https://github.com/SoroForge/stellar-smart-accounts/blob/main/CONTRIBUTING.md">
     <img alt="PRs Welcome" src="https://img.shields.io/badge/PRs-welcome-brightgreen" />
   </a>
   <img alt="Stellar" src="https://img.shields.io/badge/Stellar-Mainnet%20%7C%20Testnet-7B68EE" />
@@ -40,15 +37,14 @@
 
 ## The problem
 
-Stellar accounts have exactly one critical weakness: a **single private key** controls
-everything. Lose the key → lose all assets. Expose the key → wallet drained. This makes
-Stellar wallets unsuitable for high-value use-cases without bespoke, off-chain key
-management.
+Stellar accounts have exactly one critical weakness: a **single private key** controls everything.
+Lose the key → lose all assets. Expose the key → wallet drained. This makes Stellar wallets
+unsuitable for high-value use-cases without bespoke, off-chain key management.
 
-Ethereum solved this with **account abstraction (ERC-4337)** — smart contract wallets
-that replace the single-key model with programmable logic. Stellar already has the
-building blocks: native multi-sig, weighted signers, time bounds, and the Soroban
-smart contract platform. Yet nobody has assembled them into a reusable, open standard.
+Ethereum solved this with **account abstraction (ERC-4337)** — smart contract wallets that replace
+the single-key model with programmable logic. Stellar already has the building blocks: native
+multi-sig, weighted signers, time bounds, and the Soroban smart contract platform. Yet nobody has
+assembled them into a reusable, open standard.
 
 **`stellar-smart-accounts` fills that gap.**
 
@@ -56,10 +52,10 @@ smart contract platform. Yet nobody has assembled them into a reusable, open sta
 
 ## How it works
 
-A `stellar-smart-accounts` wallet is a **Soroban smart contract** that acts as the
-on-chain identity. The user's actual Stellar keypair is just one of potentially many
-signers. The contract enforces policies — threshold weights, session expirations,
-spending caps — that no single key can bypass.
+A `stellar-smart-accounts` wallet is a **Soroban smart contract** that acts as the on-chain
+identity. The user's actual Stellar keypair is just one of potentially many signers. The contract
+enforces policies — threshold weights, session expirations, spending caps — that no single key can
+bypass.
 
 ```
 User / dApp
@@ -87,10 +83,9 @@ User / dApp
 └─────────┘  └──────────────┘
 ```
 
-Transactions flow through the SDK which constructs the correct Soroban invocation,
-gathers the required signatures from all registered signers, and submits the
-transaction to the Stellar RPC node. The contract on-chain validates all signatures
-before executing any operation.
+Transactions flow through the SDK which constructs the correct Soroban invocation, gathers the
+required signatures from all registered signers, and submits the transaction to the Stellar RPC
+node. The contract on-chain validates all signatures before executing any operation.
 
 ---
 
@@ -98,41 +93,40 @@ before executing any operation.
 
 ### Contracts (`/contracts`)
 
-| Contract | Description |
-|---|---|
-| `smart-wallet` | Core wallet: signer registry, threshold enforcement, recovery orchestration |
-| `session-keys` | Issue and revoke time-limited sub-keys with scoped permissions |
-| `spending-limits` | Per-asset, per-period spending caps enforced before every payment |
+| Contract          | Description                                                                 |
+| ----------------- | --------------------------------------------------------------------------- |
+| `smart-wallet`    | Core wallet: signer registry, threshold enforcement, recovery orchestration |
+| `session-keys`    | Issue and revoke time-limited sub-keys with scoped permissions              |
+| `spending-limits` | Per-asset, per-period spending caps enforced before every payment           |
 
 ### Packages (`/packages`)
 
-| Package | Description |
-|---|---|
-| `@stellar-smart-accounts/sdk` | TypeScript SDK — deploy, configure, and transact with smart wallets |
+| Package                                  | Description                                                                      |
+| ---------------------------------------- | -------------------------------------------------------------------------------- |
+| `@stellar-smart-accounts/sdk`            | TypeScript SDK — deploy, configure, and transact with smart wallets              |
 | `@stellar-smart-accounts/wallet-adapter` | Drop-in adapter for popular Stellar wallet connectors (Freighter, xBull, Lobstr) |
 
 ---
 
 ## Features
 
-- **Multi-signer wallet** — register multiple Stellar keypairs with individual weights;
-  transactions require signatures reaching a configurable threshold.
+- **Multi-signer wallet** — register multiple Stellar keypairs with individual weights; transactions
+  require signatures reaching a configurable threshold.
 
-- **Social recovery** — designate trusted guardians; if you lose access, a quorum of
-  guardians can restore control to a new key without any central authority.
+- **Social recovery** — designate trusted guardians; if you lose access, a quorum of guardians can
+  restore control to a new key without any central authority.
 
-- **Session keys** — issue short-lived sub-keys scoped to specific operations (e.g.
-  "this key may only submit payments up to 10 XLM for the next 100 ledgers"). Perfect
-  for dApps and automated bots.
+- **Session keys** — issue short-lived sub-keys scoped to specific operations (e.g. "this key may
+  only submit payments up to 10 XLM for the next 100 ledgers"). Perfect for dApps and automated
+  bots.
 
-- **Spending limits** — cap daily or weekly outflows per asset at the contract level —
-  even a compromised signer cannot drain the wallet above the cap.
+- **Spending limits** — cap daily or weekly outflows per asset at the contract level — even a
+  compromised signer cannot drain the wallet above the cap.
 
-- **Gas delegation (meta-transactions)** — a relayer can pay the XLM transaction fee
-  on behalf of the wallet owner, enabling gasless UX for end users.
+- **Gas delegation (meta-transactions)** — a relayer can pay the XLM transaction fee on behalf of
+  the wallet owner, enabling gasless UX for end users.
 
-- **Fully open & auditable** — Apache 2.0 licence, all contract code in this repo,
-  no closed back-ends.
+- **Fully open & auditable** — MIT license, all contract code in this repo, no closed back-ends.
 
 ---
 
@@ -158,12 +152,12 @@ npm install @stellar-smart-accounts/wallet-adapter
 
 ### Prerequisites
 
-| Tool | Version |
-|---|---|
-| Node.js | ≥ 18 |
-| pnpm | ≥ 8 |
-| Rust | stable (for contract development) |
-| stellar-cli | latest |
+| Tool        | Version                           |
+| ----------- | --------------------------------- |
+| Node.js     | ≥ 22                              |
+| pnpm        | ≥ 8                               |
+| Rust        | stable (for contract development) |
+| stellar-cli | latest                            |
 
 ### Clone and install
 
@@ -293,10 +287,10 @@ Detailed contract interface documentation lives in [`/docs`](./docs):
 
 ## Roadmap
 
-The project is in active early development. Here is the planned work, roughly
-in priority order:
+The project is in active early development. Here is the planned work, roughly in priority order:
 
 ### v0.1 — Foundation
+
 - [ ] `smart-wallet` contract: signer management + threshold enforcement
 - [ ] `smart-wallet` contract: social recovery flow
 - [ ] TypeScript SDK: `SmartAccount.deploy()` and `SmartAccount.connect()`
@@ -305,30 +299,34 @@ in priority order:
 - [ ] End-to-end integration tests
 
 ### v0.2 — Session keys & limits
+
 - [ ] `session-keys` contract
 - [ ] `spending-limits` contract
 - [ ] SDK: session key issuance and revocation
 - [ ] SDK: spending limit configuration
 
 ### v0.3 — Wallet adapter & UX
+
 - [ ] `wallet-adapter` package with Freighter support
 - [ ] Gasless / meta-transaction relayer interface
 - [ ] Example dApp
 
 ### v0.4 — Hardening
+
 - [ ] Third-party security audit
 - [ ] Fuzzing harness for contracts
 - [ ] Mainnet deployment
 
-> Want to pick up a task? Browse [open issues](https://github.com/YOUR_USERNAME/stellar-smart-accounts/issues)
-> and look for the `good first issue` or `help wanted` labels.
+> Want to pick up a task? Browse
+> [open issues](https://github.com/Anas-01/stellar-smart-accounts/issues) and look for the
+> `good first issue` or `help wanted` labels.
 
 ---
 
 ## Contributing
 
-Contributions are welcome and appreciated!
-Please read [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines on:
+Contributions are welcome and appreciated! Please read [CONTRIBUTING.md](./CONTRIBUTING.md) for
+guidelines on:
 
 - Opening issues and feature requests
 - Setting up your development environment
@@ -340,14 +338,11 @@ Please read [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines on:
 
 ## Security
 
-Security vulnerabilities should **not** be reported via GitHub issues.
-Please read [SECURITY.md](./SECURITY.md) for responsible disclosure instructions.
+Security vulnerabilities should **not** be reported via GitHub issues. Please read
+[SECURITY.md](./SECURITY.md) for responsible disclosure instructions.
 
 ---
 
 ## License
 
-Apache 2.0 © YOUR_NAME — see [LICENSE](./LICENSE).
-
-> This project is not affiliated with, endorsed by, or sponsored by the Stellar
-> Development Foundation.
+MIT © — see [LICENSE](./LICENSE).

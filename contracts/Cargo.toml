@@ -10,10 +10,10 @@ members = [
 version = "0.1.0"
 edition = "2021"
 rust-version = "1.74"
-authors = ["YOUR_NAME <YOUR_EMAIL>"]
-license = "Apache-2.0"
-repository = "https://github.com/YOUR_USERNAME/stellar-smart-accounts"
-homepage = "https://github.com/YOUR_USERNAME/stellar-smart-accounts"
+license = "MIT"
+
+repository = "https://github.com/SoroForge/stellar-smart-accounts"
+homepage = "https://github.com/SoroForge/stellar-smart-accounts"
 
 [workspace.dependencies]
 soroban-sdk = { version = "21.0.0", features = ["testutils"] }
