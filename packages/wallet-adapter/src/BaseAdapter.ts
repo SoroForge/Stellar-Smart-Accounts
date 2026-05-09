@@ -1,4 +1,4 @@
-import type { ConnectResult, SignOptions, WalletAdapter, WalletInfo } from "./types.js";
+import type { ConnectResult, SignOptions, WalletAdapter, WalletInfo } from "./types";
 
 /**
  * Abstract base class providing shared logic for all wallet adapters.

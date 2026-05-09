@@ -7,6 +7,6 @@
  * @packageDocumentation
  */
 
-export type { WalletAdapter, WalletInfo, ConnectResult } from "./types.js";
-export { BaseAdapter } from "./BaseAdapter.js";
-export { FreighterAdapter } from "./adapters/freighter.js";
+export type { WalletAdapter, WalletInfo, ConnectResult } from "./types";
+export { BaseAdapter } from "./BaseAdapter";
+export { FreighterAdapter } from "./adapters/freighter";

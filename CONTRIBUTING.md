@@ -1,7 +1,7 @@
 # Contributing to stellar-smart-accounts
 
-Thank you for your interest in contributing! This guide will help you get
-set up and explain how we collaborate.
+Thank you for your interest in contributing! This guide will help you get set up and explain how we
+collaborate.
 
 ---
 
@@ -19,8 +19,8 @@ set up and explain how we collaborate.
 
 ## Code of conduct
 
-All contributors are expected to follow our [Code of Conduct](./CODE_OF_CONDUCT.md).
-Be kind and respectful.
+All contributors are expected to follow our [Code of Conduct](./CODE_OF_CONDUCT.md). Be kind and
+respectful.
 
 ---
 
@@ -54,12 +54,14 @@ rustup target add wasm32-unknown-unknown
 ## Development workflow
 
 1. Sync your fork with upstream before starting work:
+
    ```bash
    git fetch upstream
    git rebase upstream/main
    ```
 
 2. Create a feature branch named after the type of work:
+
    ```
    feat/session-key-revocation
    fix/threshold-underflow
@@ -69,6 +71,7 @@ rustup target add wasm32-unknown-unknown
 3. Make your changes, keeping commits small and focused.
 
 4. Run all checks before pushing:
+
    ```bash
    pnpm lint
    pnpm typecheck
@@ -88,13 +91,14 @@ We use [Conventional Commits](https://www.conventionalcommits.org). The format i
 <type>(<scope>): <short description>
 ```
 
-**Types**: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`,
-`chore`, `revert`, `contract`
+**Types**: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`,
+`revert`, `contract`
 
-**Scopes**: `sdk`, `wallet-adapter`, `contracts`, `smart-wallet`, `session-keys`,
-`spending-limits`, `docs`, `examples`, `ci`, `deps`
+**Scopes**: `sdk`, `wallet-adapter`, `contracts`, `smart-wallet`, `session-keys`, `spending-limits`,
+`docs`, `examples`, `ci`, `deps`
 
 **Examples**:
+
 ```
 feat(sdk): add SmartAccount.deploy() factory method
 fix(smart-wallet): prevent threshold underflow on signer removal
@@ -125,8 +129,7 @@ pnpm test               # run all tests
 pnpm test:coverage      # with coverage report
 ```
 
-We use [Vitest](https://vitest.dev/). Tests live alongside source files as
-`*.test.ts`.
+We use [Vitest](https://vitest.dev/). Tests live alongside source files as `*.test.ts`.
 
 ### Soroban contracts
 
@@ -135,14 +138,13 @@ cd contracts
 cargo test
 ```
 
-Contract tests use `soroban-sdk`'s built-in test utilities and run entirely
-in a simulated Soroban environment — no network connection required.
+Contract tests use `soroban-sdk`'s built-in test utilities and run entirely in a simulated Soroban
+environment — no network connection required.
 
 ### Integration (testnet)
 
-Integration tests that require a live node are in `tests/integration/` and
-are skipped in CI unless `STELLAR_NETWORK=testnet` is set. You can run them
-locally after setting up a testnet account:
+Integration tests that require a live node are in `tests/integration/` and are skipped in CI unless
+`STELLAR_NETWORK=testnet` is set. You can run them locally after setting up a testnet account:
 
 ```bash
 STELLAR_NETWORK=testnet STELLAR_SECRET=S... pnpm test:integration
@@ -152,8 +154,8 @@ STELLAR_NETWORK=testnet STELLAR_SECRET=S... pnpm test:integration
 
 ## Releasing
 
-Releases are managed by [Changesets](https://github.com/changesets/changesets).
-Only maintainers publish releases. If you are a maintainer:
+Releases are managed by [Changesets](https://github.com/changesets/changesets). Only maintainers
+publish releases. If you are a maintainer:
 
 ```bash
 # Bump versions and update changelogs

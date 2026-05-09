@@ -13,5 +13,5 @@ export STELLAR_SECRET=S...   # a funded testnet keypair
 pnpm test:integration
 ```
 
-Integration tests are skipped in CI unless the `STELLAR_NETWORK` env var is set.
-They are intended to be run manually before releases.
+Integration tests are skipped in CI unless the `STELLAR_NETWORK` env var is set. They are intended
+to be run manually before releases.

@@ -4,12 +4,12 @@ This guide walks you through deploying your first smart wallet on Stellar Testne
 
 ## Prerequisites
 
-| Tool | Version | Install |
-|---|---|---|
-| Node.js | ≥ 22 | [nodejs.org](https://nodejs.org) |
-| pnpm | ≥ 8 | `npm i -g pnpm` |
-| Rust | stable | [rustup.rs](https://rustup.rs) |
-| stellar-cli | latest | `cargo install --locked stellar-cli --features opt` |
+| Tool        | Version | Install                                             |
+| ----------- | ------- | --------------------------------------------------- |
+| Node.js     | ≥ 22    | [nodejs.org](https://nodejs.org)                    |
+| pnpm        | ≥ 8     | `npm i -g pnpm`                                     |
+| Rust        | stable  | [rustup.rs](https://rustup.rs)                      |
+| stellar-cli | latest  | `cargo install --locked stellar-cli --features opt` |
 
 ## Step 1 — Install the SDK
 

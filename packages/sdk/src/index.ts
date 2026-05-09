@@ -8,7 +8,7 @@
  * @packageDocumentation
  */
 
-export { SmartAccount } from "./SmartAccount.js";
+export { SmartAccount } from "./SmartAccount";
 export type {
   ExecutionResult,
   NetworkConfig,
@@ -20,6 +20,6 @@ export type {
   SmartWalletConfig,
   SmartWalletDeployResult,
   StellarNetwork,
-} from "./types.js";
+} from "./types";
 
 export const VERSION = "0.0.1";

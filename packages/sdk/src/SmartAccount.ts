@@ -6,7 +6,7 @@ import type {
   Signer,
   SmartWalletConfig,
   SmartWalletDeployResult,
-} from "./types.js";
+} from "./types";
 
 /**
  * `SmartAccount` is the primary entry point for interacting with a

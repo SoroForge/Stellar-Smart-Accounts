@@ -1,5 +1,5 @@
-import { BaseAdapter } from "../BaseAdapter.js";
-import type { ConnectResult, SignOptions } from "../types.js";
+import { BaseAdapter } from "../BaseAdapter";
+import type { ConnectResult, SignOptions } from "../types";
 
 /**
  * Wallet adapter for the Freighter browser extension.
@@ -19,22 +19,26 @@ import type { ConnectResult, SignOptions } from "../types.js";
 export class FreighterAdapter extends BaseAdapter {
   readonly name = "Freighter";
 
+  // eslint-disable-next-line @typescript-eslint/require-await
   async isInstalled(): Promise<boolean> {
     // TODO: check window.freighter or @stellar/freighter-api
     throw new Error("FreighterAdapter.isInstalled() — not yet implemented");
   }
 
+  // eslint-disable-next-line @typescript-eslint/require-await
   async connect(): Promise<ConnectResult> {
     // TODO: call freighter getPublicKey() and getNetwork()
     throw new Error("FreighterAdapter.connect() — not yet implemented");
   }
 
+  // eslint-disable-next-line @typescript-eslint/require-await
   async signTransaction(xdr: string, _opts?: SignOptions): Promise<string> {
     // TODO: call freighter signTransaction()
     void xdr;
     throw new Error("FreighterAdapter.signTransaction() — not yet implemented");
   }
 
+  // eslint-disable-next-line @typescript-eslint/require-await
   async disconnect(): Promise<void> {
     // TODO: clear local session state
     throw new Error("FreighterAdapter.disconnect() — not yet implemented");

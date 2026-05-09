@@ -24,25 +24,26 @@ module.exports = {
     "import/order": [
       "error",
       {
-        groups: [
-          "builtin",
-          "external",
-          "internal",
-          "parent",
-          "sibling",
-          "index",
-        ],
+        groups: ["builtin", "external", "internal", "parent", "sibling", "index"],
         "newlines-between": "always",
         alphabetize: { order: "asc" },
       },
     ],
     "import/no-duplicates": "error",
+    "@typescript-eslint/require-await": "off",
+    "@typescript-eslint/no-unsafe-assignment": "off",
   },
-  ignorePatterns: [
-    "dist/",
-    "node_modules/",
-    "coverage/",
-    "*.config.*",
-    ".eslintrc.*",
+  overrides: [
+    {
+      files: ["**/*.test.ts", "**/*.spec.ts"],
+      extends: ["eslint:recommended", "plugin:@typescript-eslint/recommended", "prettier"],
+      rules: {
+        "import/order": "off",
+        "@typescript-eslint/no-unsafe-assignment": "off",
+        "@typescript-eslint/no-unsafe-member-access": "off",
+        "@typescript-eslint/no-unsafe-argument": "off",
+      },
+    },
   ],
+  ignorePatterns: ["dist/", "node_modules/", "coverage/", "*.config.*", ".eslintrc.*"],
 };

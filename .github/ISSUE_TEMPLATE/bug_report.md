@@ -12,9 +12,9 @@ assignees: []
 
 ## Steps to reproduce
 
-1. 
-2. 
-3. 
+1.
+2.
+3.
 
 ## Expected behavior
 
@@ -32,10 +32,10 @@ assignees: []
 
 ## Environment
 
-- **stellar-smart-accounts version**: 
+- **stellar-smart-accounts version**:
 - **Package**: `@stellar-smart-accounts/sdk` / `wallet-adapter` / `contracts`
-- **Node.js version**: 
-- **OS**: 
+- **Node.js version**:
+- **OS**:
 - **Stellar Network**: `mainnet` / `testnet` / `futurenet`
 
 ## Additional context

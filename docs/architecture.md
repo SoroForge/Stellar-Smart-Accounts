@@ -38,8 +38,8 @@
 <!-- Document significant technical decisions here as they are made -->
 
 | Decision | Rationale |
-|---|---|
-| _TBD_ | _TBD_ |
+| -------- | --------- |
+| _TBD_    | _TBD_     |
 
 ## Adding a new contract
 

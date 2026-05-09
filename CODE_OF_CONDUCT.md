@@ -2,11 +2,11 @@
 
 ## Our pledge
 
-We as members, contributors, and leaders pledge to make participation in our community
-a harassment-free experience for everyone, regardless of age, body size, visible or
-invisible disability, ethnicity, sex characteristics, gender identity and expression,
-level of experience, education, socio-economic status, nationality, personal appearance,
-race, caste, color, religion, or sexual identity and orientation.
+We as members, contributors, and leaders pledge to make participation in our community a
+harassment-free experience for everyone, regardless of age, body size, visible or invisible
+disability, ethnicity, sex characteristics, gender identity and expression, level of experience,
+education, socio-economic status, nationality, personal appearance, race, caste, color, religion, or
+sexual identity and orientation.
 
 ## Our standards
 
@@ -28,20 +28,21 @@ Examples of unacceptable behavior:
 
 ## Enforcement responsibilities
 
-Project maintainers are responsible for clarifying and enforcing standards of acceptable
-behavior and will take appropriate and fair corrective action in response to any behavior
-they deem inappropriate.
+Project maintainers are responsible for clarifying and enforcing standards of acceptable behavior
+and will take appropriate and fair corrective action in response to any behavior they deem
+inappropriate.
 
 ## Scope
 
-This Code of Conduct applies within all community spaces, and also applies when an
-individual is officially representing the community in public spaces.
+This Code of Conduct applies within all community spaces, and also applies when an individual is
+officially representing the community in public spaces.
 
 ## Enforcement
 
-Instances of abusive, harassing, or otherwise unacceptable behavior may be reported to
-the maintainers at **conduct@YOUR_DOMAIN**. All complaints will be reviewed promptly.
+Instances of abusive, harassing, or otherwise unacceptable behavior may be reported to the
+maintainers at **conduct@YOUR_DOMAIN**. All complaints will be reviewed promptly.
 
 ## Attribution
 
-This Code of Conduct is adapted from the [Contributor Covenant](https://www.contributor-covenant.org), version 2.1.
+This Code of Conduct is adapted from the
+[Contributor Covenant](https://www.contributor-covenant.org), version 2.1.
