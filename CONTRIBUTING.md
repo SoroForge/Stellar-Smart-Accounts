@@ -17,18 +17,11 @@ collaborate.
 
 ---
 
-## Code of conduct
-
-All contributors are expected to follow our [Code of Conduct](./CODE_OF_CONDUCT.md). Be kind and
-respectful.
-
----
-
 ## Getting started
 
 ### Prerequisites
 
-- **Node.js ≥ 18** and **pnpm ≥ 8** for TypeScript packages
+- **Node.js ≥ 22** and **pnpm ≥ 8** for TypeScript packages
 - **Rust stable** and the `wasm32-unknown-unknown` target for Soroban contracts
 - **stellar-cli** — install with `cargo install --locked stellar-cli --features opt`
 
@@ -36,7 +29,7 @@ respectful.
 
 ```bash
 # Fork the repo on GitHub, then:
-git clone https://github.com/YOUR_FORK/stellar-smart-accounts.git
+git clone https://github.com/SoroForge/stellar-smart-accounts.git
 cd stellar-smart-accounts
 git remote add upstream https://github.com/YOUR_USERNAME/stellar-smart-accounts.git
 ```
@@ -166,5 +159,3 @@ pnpm release
 ```
 
 ---
-
-Questions? Open a [Discussion](https://github.com/YOUR_USERNAME/stellar-smart-accounts/discussions).
