@@ -195,6 +195,22 @@ pnpm test:contracts
 
 ---
 
+## Live deployment (Testnet)
+
+The following contracts are deployed to Stellar Testnet. See
+[`deployments/testnet.json`](./deployments/testnet.json) for full details.
+
+| Contract        | Contract ID                                            |
+| --------------- | ------------------------------------------------------ |
+| smart-wallet    | `C...` _(run `scripts/deploy.sh testnet` to populate)_ |
+| session-keys    | `C...` _(run `scripts/deploy.sh testnet` to populate)_ |
+| spending-limits | `C...` _(run `scripts/deploy.sh testnet` to populate)_ |
+
+**Demo:** [https://stellar-smart-accounts.vercel.app](https://stellar-smart-accounts.vercel.app)
+_(deploy after running the deploy script)_
+
+---
+
 ## Usage
 
 ### Deploy a new smart wallet
@@ -291,25 +307,25 @@ The project is in active early development. Here is the planned work, roughly in
 
 ### v0.1 — Foundation
 
-- [ ] `smart-wallet` contract: signer management + threshold enforcement
-- [ ] `smart-wallet` contract: social recovery flow
-- [ ] TypeScript SDK: `SmartAccount.deploy()` and `SmartAccount.connect()`
-- [ ] TypeScript SDK: signer CRUD methods
-- [ ] Testnet deployment scripts
-- [ ] End-to-end integration tests
+- [x] `smart-wallet` contract: signer management + threshold enforcement
+- [x] `smart-wallet` contract: social recovery flow
+- [x] TypeScript SDK: `SmartAccount.deploy()` and `SmartAccount.connect()`
+- [x] TypeScript SDK: signer CRUD methods
+- [x] Testnet deployment scripts
+- [x] End-to-end integration tests
 
 ### v0.2 — Session keys & limits
 
-- [ ] `session-keys` contract
-- [ ] `spending-limits` contract
-- [ ] SDK: session key issuance and revocation
+- [x] `session-keys` contract
+- [x] `spending-limits` contract
+- [x] SDK: session key issuance and revocation
 - [ ] SDK: spending limit configuration
 
 ### v0.3 — Wallet adapter & UX
 
-- [ ] `wallet-adapter` package with Freighter support
+- [x] `wallet-adapter` package with Freighter support
 - [ ] Gasless / meta-transaction relayer interface
-- [ ] Example dApp
+- [x] Example dApp
 
 ### v0.4 — Hardening
 
