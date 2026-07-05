@@ -1,5 +1,7 @@
-import { BaseAdapter } from "../BaseAdapter";
-import type { ConnectResult, SignOptions } from "../types";
+import { isConnected, getNetwork, getPublicKey, signTransaction } from "@stellar/freighter-api";
+
+import { BaseAdapter } from "../BaseAdapter.js";
+import type { ConnectResult, SignOptions } from "../types.js";
 
 /**
  * Wallet adapter for the Freighter browser extension.
@@ -19,28 +21,72 @@ import type { ConnectResult, SignOptions } from "../types";
 export class FreighterAdapter extends BaseAdapter {
   readonly name = "Freighter";
 
-  // eslint-disable-next-line @typescript-eslint/require-await
   async isInstalled(): Promise<boolean> {
-    // TODO: check window.freighter or @stellar/freighter-api
-    throw new Error("FreighterAdapter.isInstalled() — not yet implemented");
+    try {
+      const result = await isConnected();
+      return result.isConnected;
+    } catch {
+      return false;
+    }
   }
 
-  // eslint-disable-next-line @typescript-eslint/require-await
   async connect(): Promise<ConnectResult> {
-    // TODO: call freighter getPublicKey() and getNetwork()
-    throw new Error("FreighterAdapter.connect() — not yet implemented");
+    const installed = await this.isInstalled();
+    if (!installed) {
+      throw new Error("Freighter is not installed");
+    }
+
+    try {
+      const pubResult = await getPublicKey();
+      const netResult = await getNetwork();
+
+      this.connectedPublicKey = pubResult.publicKey;
+
+      return {
+        publicKey: pubResult.publicKey,
+        network: netResult.networkPassphrase,
+      };
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      throw new Error(`Freighter connect failed: ${msg}`);
+    }
   }
 
-  // eslint-disable-next-line @typescript-eslint/require-await
-  async signTransaction(xdr: string, _opts?: SignOptions): Promise<string> {
-    // TODO: call freighter signTransaction()
-    void xdr;
-    throw new Error("FreighterAdapter.signTransaction() — not yet implemented");
+  async signTransaction(xdr: string, opts?: SignOptions): Promise<string> {
+    try {
+      const freighterOpts: { networkPassphrase?: string; accountToSign?: string } = {};
+      if (opts?.networkPassphrase) {
+        freighterOpts.networkPassphrase = opts.networkPassphrase;
+      }
+      if (opts?.accountToSign) {
+        freighterOpts.accountToSign = opts.accountToSign;
+      }
+      const result = await signTransaction(xdr, freighterOpts);
+
+      let signedXdr: string;
+      if (typeof result === "string") {
+        signedXdr = result;
+      } else if (typeof result === "object" && "signedTxXdr" in result) {
+        signedXdr = (result as { signedTxXdr: string }).signedTxXdr;
+      } else {
+        throw new Error("Freighter returned no signed transaction");
+      }
+
+      if (!signedXdr) {
+        throw new Error("Freighter returned an empty signed transaction");
+      }
+
+      return signedXdr;
+    } catch (err) {
+      if (err instanceof Error && err.message.startsWith("Freighter ")) {
+        throw err;
+      }
+      const msg = err instanceof Error ? err.message : String(err);
+      throw new Error(`Freighter sign failed: ${msg}`);
+    }
   }
 
-  // eslint-disable-next-line @typescript-eslint/require-await
   async disconnect(): Promise<void> {
-    // TODO: clear local session state
-    throw new Error("FreighterAdapter.disconnect() — not yet implemented");
+    this.connectedPublicKey = null;
   }
 }
