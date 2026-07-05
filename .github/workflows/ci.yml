@@ -123,3 +123,22 @@ jobs:
           name: dist-packages
           path: packages/*/dist/
           retention-days: 7
+
+  build-app:
+    name: Build Demo App
+    needs: [lint, typecheck, test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 8.15.9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: if [ -f pnpm-lock.yaml ]; then pnpm install --frozen-lockfile; else pnpm install; fi
+      - run: pnpm --filter @stellar-smart-accounts/app build
