@@ -14,11 +14,15 @@ out/
 target/
 **/*.rs.bk
 Cargo.lock
+**/test_snapshots/
 
 # Environment
 .env
 .env.local
 .env.*.local
+
+# Deployment artifacts (WASM copies — not source)
+deployments/wasm/
 
 # Test coverage
 coverage/
