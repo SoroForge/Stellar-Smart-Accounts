@@ -30,6 +30,10 @@ module.exports = {
       },
     ],
     "import/no-duplicates": "error",
+    // NodeNext module resolution requires `.js` extensions on relative imports,
+    // but the node resolver cannot map those to `.ts` source files. TypeScript
+    // already validates all import resolution, so this rule is redundant here.
+    "import/no-unresolved": "off",
     "@typescript-eslint/require-await": "off",
     "@typescript-eslint/no-unsafe-assignment": "off",
   },

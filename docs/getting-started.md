@@ -27,14 +27,53 @@ stellar keys address deployer
 
 ## Step 3 — Deploy a smart wallet
 
+The contracts are pre-deployed to Stellar Testnet. See
+[`deployments/testnet.json`](../deployments/testnet.json) for the live contract IDs.
+
+To deploy your own wallet instance:
+
 ```typescript
-// TODO: add example once SmartAccount.deploy() is implemented
+import { SmartAccount } from "@stellar-smart-accounts/sdk";
+import { Networks } from "@stellar/stellar-sdk";
+
+const result = await SmartAccount.deploy({
+  network: {
+    network: "testnet",
+    rpcUrl: "https://soroban-testnet.stellar.org",
+    networkPassphrase: Networks.TESTNET,
+  },
+  signerConfig: {
+    signers: [{ address: "GABC...1234", weight: 1 }],
+    threshold: 1,
+  },
+  deployerSecret: "S...", // your funded testnet secret key
+});
+
+console.log("Smart wallet deployed:", result.contractId);
 ```
 
 ## Step 4 — Connect an existing wallet
 
 ```typescript
-// TODO: add example once SmartAccount.connect() is implemented
+import { SmartAccount } from "@stellar-smart-accounts/sdk";
+import { Networks } from "@stellar/stellar-sdk";
+
+// Use the pre-deployed testnet contract ID from deployments/testnet.json
+const wallet = SmartAccount.connect("CACT_ID_FROM_TESTNET_JSON", {
+  network: {
+    network: "testnet",
+    rpcUrl: "https://soroban-testnet.stellar.org",
+    networkPassphrase: Networks.TESTNET,
+  },
+  signerConfig: {
+    signers: [{ address: "GABC...1234", weight: 1 }],
+    threshold: 1,
+  },
+});
+
+// Read the current signers from the live contract
+const signers = await wallet.getSigners();
+console.log("Signers:", signers);
 ```
 
 ## Next steps

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import * as sdkExports from "./index";
+import * as sdkExports from "./index.js";
 
 describe("SDK Exports", () => {
   it("should export SmartAccount", () => {

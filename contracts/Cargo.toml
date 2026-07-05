@@ -14,9 +14,10 @@ license = "MIT"
 
 repository = "https://github.com/SoroForge/stellar-smart-accounts"
 homepage = "https://github.com/SoroForge/stellar-smart-accounts"
+authors = ["SoroForge"]
 
 [workspace.dependencies]
-soroban-sdk = { version = "21.0.0", features = ["testutils"] }
+soroban-sdk = { version = "21.0.0" }
 
 [profile.release]
 opt-level = "z"

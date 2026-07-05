@@ -42,6 +42,18 @@ export interface SmartWalletConfig {
   signerConfig: SignerConfig;
   /** Soroban contract ID of the deployed smart-wallet contract */
   contractId?: string;
+  /** Secret key of the account paying for deployment. Not stored. */
+  deployerSecret?: string;
+  /** Soroban contract ID of the deployed session-keys contract */
+  sessionKeysContractId?: string;
+  /**
+   * Secret key of the account that signs wallet-mutating transactions
+   * (add/remove signer, guardians, session keys, recovery). Required for any
+   * state-changing call when running in a Node.js context. Browser consumers
+   * that sign via a wallet adapter (e.g. Freighter) may leave this unset and
+   * sign the built transaction out-of-band. Not stored beyond the call.
+   */
+  signerSecret?: string;
 }
 
 export interface SmartWalletDeployResult {
