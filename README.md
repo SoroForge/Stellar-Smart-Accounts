@@ -197,21 +197,31 @@ pnpm test:contracts
 
 ## Live deployment (Testnet)
 
-The following contracts are deployed to Stellar Testnet. See
-[`deployments/testnet.json`](./deployments/testnet.json) for full details.
+The following contracts are deployed to **Stellar Testnet** and ready to use.
 
-| Contract        | Contract ID                                                |
-| --------------- | ---------------------------------------------------------- |
-| smart-wallet    | `CBUEUWCNWF3Q5KCDA46SCBREGZUY5DVIF25T52D6MRYPKWWHJLLSWDP4` |
-| session-keys    | `CBMJ52UOFODPM2THFP7E4ZO73LTPROEXRUPJO7LCSB6UTVIP7AO4JGT3` |
-| spending-limits | `CDVQB6HYHLBZRRA5SKO2M55HBVZ2PLEFCLDP6662WFK7QSKW6RJMVDA5` |
+### Contract Addresses
 
-**Deployed:** July 6, 2026  
-**Network:** Stellar Testnet  
-**Deployer:** `GC6C5LTM55PL46YKOQR7M6PKECQ6TJ66D6ZSLAUC6MYRM5DAYPVJ26CN`
+| Contract        | Contract ID                                                | Explorer                                                                                                                            |
+| --------------- | ---------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| smart-wallet    | `CBUEUWCNWF3Q5KCDA46SCBREGZUY5DVIF25T52D6MRYPKWWHJLLSWDP4` | [View on Stellar Expert](https://stellar.expert/explorer/testnet/contract/CBUEUWCNWF3Q5KCDA46SCBREGZUY5DVIF25T52D6MRYPKWWHJLLSWDP4) |
+| session-keys    | `CBMJ52UOFODPM2THFP7E4ZO73LTPROEXRUPJO7LCSB6UTVIP7AO4JGT3` | [View on Stellar Expert](https://stellar.expert/explorer/testnet/contract/CBMJ52UOFODPM2THFP7E4ZO73LTPROEXRUPJO7LCSB6UTVIP7AO4JGT3) |
+| spending-limits | `CDVQB6HYHLBZRRA5SKO2M55HBVZ2PLEFCLDP6662WFK7QSKW6RJMVDA5` | [View on Stellar Expert](https://stellar.expert/explorer/testnet/contract/CDVQB6HYHLBZRRA5SKO2M55HBVZ2PLEFCLDP6662WFK7QSKW6RJMVDA5) |
 
-**Demo:** [https://stellar-smart-accounts.vercel.app](https://stellar-smart-accounts.vercel.app)
-_(coming soon - see deployment steps below)_
+### Deployment Details
+
+- **Network**: Stellar Testnet
+- **RPC Endpoint**: https://soroban-testnet.stellar.org
+- **Network Passphrase**: `Test SDF Network ; September 2015`
+- **Deployed**: July 6, 2026
+- **Deployer Account**: `GC6C5LTM55PL46YKOQR7M6PKECQ6TJ66D6ZSLAUC6MYRM5DAYPVJ26CN`
+
+For complete deployment details including WASM hashes, see
+[`deployments/testnet.json`](./deployments/testnet.json).
+
+### Demo Application
+
+**Demo**: [https://stellar-smart-accounts.vercel.app](https://stellar-smart-accounts.vercel.app)
+_(coming soon)_
 
 ---
 
@@ -244,17 +254,26 @@ console.log("Smart wallet deployed:", result.contractId);
 ### Connect to an existing wallet
 
 ```typescript
-const wallet = SmartAccount.connect("CONTRACT_ID_HERE", {
+import { SmartAccount } from "@stellar-smart-accounts/sdk";
+import { Networks } from "@stellar/stellar-sdk";
+
+// Connect to the pre-deployed testnet smart wallet
+const wallet = SmartAccount.connect("CBUEUWCNWF3Q5KCDA46SCBREGZUY5DVIF25T52D6MRYPKWWHJLLSWDP4", {
   network: {
     network: "testnet",
     rpcUrl: "https://soroban-testnet.stellar.org",
     networkPassphrase: Networks.TESTNET,
   },
   signerConfig: {
-    signers: [{ address: "GABC...1234", weight: 1 }],
+    signers: [{ address: "YOUR_PUBLIC_KEY", weight: 1 }],
     threshold: 1,
   },
+  sessionKeysContractId: "CBMJ52UOFODPM2THFP7E4ZO73LTPROEXRUPJO7LCSB6UTVIP7AO4JGT3",
 });
+
+// Read current signers
+const signers = await wallet.getSigners();
+console.log("Signers:", signers);
 ```
 
 ### Add a signer
