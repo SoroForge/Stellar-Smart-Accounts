@@ -200,14 +200,18 @@ pnpm test:contracts
 The following contracts are deployed to Stellar Testnet. See
 [`deployments/testnet.json`](./deployments/testnet.json) for full details.
 
-| Contract        | Contract ID                                            |
-| --------------- | ------------------------------------------------------ |
-| smart-wallet    | `C...` _(run `scripts/deploy.sh testnet` to populate)_ |
-| session-keys    | `C...` _(run `scripts/deploy.sh testnet` to populate)_ |
-| spending-limits | `C...` _(run `scripts/deploy.sh testnet` to populate)_ |
+| Contract        | Contract ID                                                |
+| --------------- | ---------------------------------------------------------- |
+| smart-wallet    | `CBUEUWCNWF3Q5KCDA46SCBREGZUY5DVIF25T52D6MRYPKWWHJLLSWDP4` |
+| session-keys    | `CBMJ52UOFODPM2THFP7E4ZO73LTPROEXRUPJO7LCSB6UTVIP7AO4JGT3` |
+| spending-limits | `CDVQB6HYHLBZRRA5SKO2M55HBVZ2PLEFCLDP6662WFK7QSKW6RJMVDA5` |
+
+**Deployed:** July 6, 2026  
+**Network:** Stellar Testnet  
+**Deployer:** `GC6C5LTM55PL46YKOQR7M6PKECQ6TJ66D6ZSLAUC6MYRM5DAYPVJ26CN`
 
 **Demo:** [https://stellar-smart-accounts.vercel.app](https://stellar-smart-accounts.vercel.app)
-_(deploy after running the deploy script)_
+_(coming soon - see deployment steps below)_
 
 ---
 

@@ -13,13 +13,13 @@
   "type": "module",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.cjs"
     },
     "./freighter": {
-      "import": "./dist/adapters/freighter.js",
-      "types": "./dist/adapters/freighter.d.ts"
+      "types": "./dist/adapters/freighter.d.ts",
+      "import": "./dist/adapters/freighter.js"
     }
   },
   "main": "./dist/index.cjs",
@@ -46,7 +46,7 @@
   },
   "peerDependenciesMeta": {
     "@stellar/freighter-api": {
-      "optional": false
+      "optional": true
     }
   },
   "devDependencies": {

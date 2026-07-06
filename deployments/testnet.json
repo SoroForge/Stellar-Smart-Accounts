@@ -3,10 +3,19 @@
   "rpcUrl": "https://soroban-testnet.stellar.org",
   "networkPassphrase": "Test SDF Network ; September 2015",
   "contracts": {
-    "smartWallet": { "wasmHash": "", "contractId": "" },
-    "sessionKeys": { "wasmHash": "", "contractId": "" },
-    "spendingLimits": { "wasmHash": "", "contractId": "" }
+    "smartWallet": {
+      "wasmHash": "0c98fb1ce24240eb639714e309ee4e776dfadcd28753d4eb0d2818fa9c7b4891",
+      "contractId": "CBUEUWCNWF3Q5KCDA46SCBREGZUY5DVIF25T52D6MRYPKWWHJLLSWDP4"
+    },
+    "sessionKeys": {
+      "wasmHash": "7aeeb3e8e7d36a5d1663a8247d0fd803165d988e7d02cdcf39bae84067a96822",
+      "contractId": "CBMJ52UOFODPM2THFP7E4ZO73LTPROEXRUPJO7LCSB6UTVIP7AO4JGT3"
+    },
+    "spendingLimits": {
+      "wasmHash": "2c3d398b847b50f459449129a51c332deae2f247e9549a2685555f860610375e",
+      "contractId": "CDVQB6HYHLBZRRA5SKO2M55HBVZ2PLEFCLDP6662WFK7QSKW6RJMVDA5"
+    }
   },
-  "deployedAt": "",
-  "deployedBy": ""
+  "deployedAt": "2026-07-06T11:42:37Z",
+  "deployedBy": "GC6C5LTM55PL46YKOQR7M6PKECQ6TJ66D6ZSLAUC6MYRM5DAYPVJ26CN"
 }
