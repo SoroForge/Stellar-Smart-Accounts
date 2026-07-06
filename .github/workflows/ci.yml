@@ -51,6 +51,10 @@ jobs:
           cache: pnpm
 
       - run: if [ -f pnpm-lock.yaml ]; then pnpm install --frozen-lockfile; else pnpm install; fi
+
+      - name: Build packages (required for typecheck)
+        run: pnpm build
+
       - run: pnpm typecheck
 
   test:
