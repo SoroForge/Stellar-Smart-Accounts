@@ -1,7 +1,3 @@
-import { readFileSync } from "node:fs";
-import { dirname, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
-
 import {
   Address,
   BASE_FEE,
@@ -84,7 +80,7 @@ export class SmartAccount {
     const passphrase = config.network.networkPassphrase;
 
     // 1. Upload the compiled smart-wallet WASM.
-    const wasm = readWasm("smart_wallet.wasm");
+    const wasm = await readWasm("smart_wallet.wasm");
     const uploadOp = Operation.uploadContractWasm({ wasm });
     const uploadResult = await SmartAccount._buildAndSubmit(server, keypair, uploadOp, passphrase);
     const wasmHash = extractBytes(uploadResult.resultValue);
@@ -448,8 +444,24 @@ function sleep(ms: number): Promise<void> {
  * Searches a small set of candidate locations (relative to the package root
  * and the current working directory) so the SDK works whether it is invoked
  * from the repo root or from a dependent project.
+ *
+ * **Note**: This function requires Node.js file system APIs and will throw in browser environments.
+ * Contract deployment must be performed server-side or in a Node.js environment.
  */
-function readWasm(fileName: string): Buffer {
+async function readWasm(fileName: string): Promise<Buffer> {
+  // Check if we're in a Node.js environment
+  if (typeof process === "undefined" || typeof process.cwd !== "function") {
+    throw new Error(
+      `readWasm() requires Node.js. Contract deployment must be performed server-side. ` +
+        `Cannot read WASM file "${fileName}" in browser environment.`,
+    );
+  }
+
+  // Dynamically import Node.js modules only when needed
+  const { readFileSync } = await import("node:fs");
+  const { dirname, resolve } = await import("node:path");
+  const { fileURLToPath } = await import("node:url");
+
   const candidates: string[] = [];
   try {
     const here = dirname(fileURLToPath(import.meta.url));

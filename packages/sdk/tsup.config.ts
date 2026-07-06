@@ -9,5 +9,7 @@ export default defineConfig({
   clean: true,
   treeshake: true,
   minify: false,
+  platform: "node",
+  target: "node18",
   external: ["@stellar/stellar-sdk"],
 });
