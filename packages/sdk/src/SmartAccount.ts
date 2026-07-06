@@ -459,7 +459,9 @@ async function readWasm(fileName: string): Promise<Buffer> {
 
   // Dynamically import Node.js modules only when needed
   const { readFileSync } = await import(/* @vite-ignore */ /* webpackIgnore: true */ "node:fs");
-  const { dirname, resolve } = await import(/* @vite-ignore */ /* webpackIgnore: true */ "node:path");
+  const { dirname, resolve } = await import(
+    /* @vite-ignore */ /* webpackIgnore: true */ "node:path"
+  );
   const { fileURLToPath } = await import(/* @vite-ignore */ /* webpackIgnore: true */ "node:url");
 
   const candidates: string[] = [];
