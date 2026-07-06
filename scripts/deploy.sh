@@ -52,7 +52,13 @@ case "$NETWORK" in
     ;;
 esac
 
-DEPLOYER_PUBLIC=$(stellar keys address "$STELLAR_SECRET" 2>/dev/null || echo "")
+DEPLOYER_PUBLIC=$(stellar keys address deployer-temp 2>/dev/null || echo "")
+
+if [[ -z "$DEPLOYER_PUBLIC" ]]; then
+  echo "Error: deployer-temp key not found in keystore."
+  echo "Add it first with: echo \$STELLAR_SECRET | stellar keys add deployer-temp --secret-key"
+  exit 1
+fi
 
 echo "============================================="
 echo " stellar-smart-accounts — Contract Deployment"
@@ -60,6 +66,7 @@ echo "============================================="
 echo "Network:          $NETWORK"
 echo "RPC:              $STELLAR_RPC_URL"
 echo "Passphrase:       $NETWORK_PASSPHRASE"
+echo "Deployer:         $DEPLOYER_PUBLIC"
 echo "============================================="
 echo ""
 
@@ -90,7 +97,6 @@ echo ""
 upload_and_deploy() {
   local wasm_file="$1"
   local contract_name="$2"
-  local init_args=("${@:3}")
   local upper_name
   upper_name=$(echo "$contract_name" | tr '[:lower:]' '[:upper:]' | tr '-' '_')
 
@@ -98,32 +104,41 @@ upload_and_deploy() {
 
   # Upload WASM
   local wasm_hash
-  wasm_hash=$(stellar contract upload \
-    --network "$NETWORK" \
-    --source-account "$STELLAR_SECRET" \
-    --wasm "$WASM_DIR/$wasm_file" \
-    --dump-i64-return-value 2>&1 | tail -1 | tr -d ' ')
+  local upload_output
+  upload_output=$(stellar contract upload \
+    --rpc-url "$STELLAR_RPC_URL" \
+    --network-passphrase "$NETWORK_PASSPHRASE" \
+    --source deployer-temp \
+    --wasm "$WASM_DIR/$wasm_file" 2>&1)
+  
+  # Extract hash - it's a hex string on the last line
+  wasm_hash=$(echo "$upload_output" | grep -oP '[a-f0-9]{64}' | tail -1)
+  
+  if [[ -z "$wasm_hash" ]]; then
+    echo "  ERROR: Failed to upload WASM"
+    echo "$upload_output"
+    exit 1
+  fi
   echo "  WASM hash: $wasm_hash"
 
   # Deploy contract
   local contract_id
-  contract_id=$(stellar contract deploy \
-    --network "$NETWORK" \
-    --source-account "$STELLAR_SECRET" \
-    --wasm-hash "$wasm_hash" \
-    --dump-i64-return-value 2>&1 | tail -1 | tr -d ' ')
-  echo "  Contract ID: $contract_id"
-
-  # Initialize contract (if init args provided)
-  if [[ ${#init_args[@]} -gt 0 ]]; then
-    stellar contract invoke \
-      --network "$NETWORK" \
-      --source-account "$STELLAR_SECRET" \
-      --id "$contract_id" \
-      -- \
-      initialize "${init_args[@]}"
-    echo "  Initialized."
+  local deploy_output
+  deploy_output=$(stellar contract deploy \
+    --rpc-url "$STELLAR_RPC_URL" \
+    --network-passphrase "$NETWORK_PASSPHRASE" \
+    --source deployer-temp \
+    --wasm-hash "$wasm_hash" 2>&1)
+  
+  # Extract contract ID - it's a C... address
+  contract_id=$(echo "$deploy_output" | grep -oP 'C[A-Z0-9]{55}' | head -1)
+  
+  if [[ -z "$contract_id" ]]; then
+    echo "  ERROR: Failed to deploy contract"
+    echo "$deploy_output"
+    exit 1
   fi
+  echo "  Contract ID: $contract_id"
 
   # Export variables for the JSON writer
   export "${upper_name}_WASM_HASH=$wasm_hash"
@@ -136,23 +151,54 @@ upload_and_deploy() {
 # Upload & deploy each contract
 # ---------------------------------------------------------------------------
 
-# smart-wallet: initialize(owner, threshold)
-# Owner is the deployer's public key, threshold = 1
-DEPLOYER_ADDR="${DEPLOYER_PUBLIC:-$(stellar keys address "$STELLAR_SECRET" 2>/dev/null || echo "")}"
-
-upload_and_deploy "smart_wallet.wasm" "smart-wallet" "$DEPLOYER_ADDR" "1"
+# smart-wallet: initialize with owner and threshold
+upload_and_deploy "smart_wallet.wasm" "smart-wallet"
 SMART_WALLET_WASM_HASH="$SMART_WALLET_WASM_HASH"
 SMART_WALLET_CONTRACT_ID="$SMART_WALLET_CONTRACT_ID"
 
-# session-keys: initialize(wallet_contract)
-upload_and_deploy "session_keys.wasm" "session-keys" "$SMART_WALLET_CONTRACT_ID"
+# Initialize smart-wallet
+echo "  Initializing smart-wallet..."
+stellar contract invoke \
+  --rpc-url "$STELLAR_RPC_URL" \
+  --network-passphrase "$NETWORK_PASSPHRASE" \
+  --source deployer-temp \
+  --id "$SMART_WALLET_CONTRACT_ID" \
+  -- \
+  initialize \
+  --owner "$DEPLOYER_PUBLIC" \
+  --threshold 1 >/dev/null 2>&1 && echo "  ✓ Initialized smart-wallet"
+
+# session-keys: initialize with wallet_contract
+upload_and_deploy "session_keys.wasm" "session-keys"
 SESSION_KEYS_WASM_HASH="$SESSION_KEYS_WASM_HASH"
 SESSION_KEYS_CONTRACT_ID="$SESSION_KEYS_CONTRACT_ID"
 
-# spending-limits: initialize(wallet_contract)
-upload_and_deploy "spending_limits.wasm" "spending-limits" "$SMART_WALLET_CONTRACT_ID"
+# Initialize session-keys
+echo "  Initializing session-keys..."
+stellar contract invoke \
+  --rpc-url "$STELLAR_RPC_URL" \
+  --network-passphrase "$NETWORK_PASSPHRASE" \
+  --source deployer-temp \
+  --id "$SESSION_KEYS_CONTRACT_ID" \
+  -- \
+  initialize \
+  --wallet_contract "$SMART_WALLET_CONTRACT_ID" >/dev/null 2>&1 && echo "  ✓ Initialized session-keys"
+
+# spending-limits: initialize with wallet_contract
+upload_and_deploy "spending_limits.wasm" "spending-limits"
 SPENDING_LIMITS_WASM_HASH="$SPENDING_LIMITS_WASM_HASH"
 SPENDING_LIMITS_CONTRACT_ID="$SPENDING_LIMITS_CONTRACT_ID"
+
+# Initialize spending-limits
+echo "  Initializing spending-limits..."
+stellar contract invoke \
+  --rpc-url "$STELLAR_RPC_URL" \
+  --network-passphrase "$NETWORK_PASSPHRASE" \
+  --source deployer-temp \
+  --id "$SPENDING_LIMITS_CONTRACT_ID" \
+  -- \
+  initialize \
+  --wallet_contract "$SMART_WALLET_CONTRACT_ID" >/dev/null 2>&1 && echo "  ✓ Initialized spending-limits"
 
 # ---------------------------------------------------------------------------
 # Write deployments/testnet.json
@@ -199,3 +245,7 @@ echo "Deployment record: deployments/${NETWORK}.json"
 echo ""
 echo "Verify with:"
 echo "  stellar contract invoke --id $SMART_WALLET_CONTRACT_ID --network $NETWORK -- signers"
+echo ""
+
+# Cleanup temporary key
+stellar keys rm deployer-temp 2>/dev/null || true
