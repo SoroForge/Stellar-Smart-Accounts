@@ -97,20 +97,68 @@ All changes verified:
 - **1 job fixed:** release/publish
 - Updated pnpm version
 
+### 6. **Typecheck Module Resolution** ❌ → ✅
+
+**Problem:** Typecheck job failed with "Cannot find module @stellar-smart-accounts/sdk"
+
+- Error: App and wallet-adapter couldn't resolve SDK module during typecheck
+- Impact: Typecheck job failed, causing Build and Build Demo App jobs to be skipped
+- Root Cause: Packages weren't built before typecheck, so `.d.ts` files didn't exist
+
+**Solution:** Added build step before typecheck in CI workflow
+
+```yaml
+- name: Build packages (required for typecheck)
+  run: pnpm build
+
+- run: pnpm typecheck
+```
+
+- Location: `.github/workflows/ci.yml` line 52-53
+- Ensures all packages are compiled with type definitions before typecheck runs
+- Verified locally: `pnpm build && pnpm typecheck` both pass ✅
+
+### 7. **Vercel Deployment Configuration** ❌ → ✅
+
+**Problem:** Vercel deployment failed with "ERR_PNPM_NO_IMPORTER_MANIFEST_FOUND"
+
+- Error: Vercel couldn't find package.json in the expected location
+- Impact: Demo app deployments failing
+- Root Cause: Monorepo configuration wasn't properly set in root
+
+**Solution:** Created root `vercel.json` with proper monorepo configuration
+
+```json
+{
+  "buildCommand": "pnpm build --filter @stellar-smart-accounts/app",
+  "outputDirectory": "app/dist",
+  "installCommand": "pnpm install --frozen-lockfile",
+  "framework": "vite",
+  "ignoreCommand": "git diff --quiet HEAD^ HEAD ./app ./packages"
+}
+```
+
+- File: `vercel.json` (root)
+- Properly scopes build to app package with dependencies
+- Verified locally: `pnpm build --filter @stellar-smart-accounts/app` passes ✅
+
 ## Expected CI Status
 
 All workflows should now pass:
 
 - ✅ **Lint & Format** - Runs prettier/eslint checks
-- ✅ **Typecheck** - TypeScript compilation check
+- ✅ **Typecheck** - TypeScript compilation check with build step
 - ✅ **Test** - Unit tests with Node.js 22
 - ✅ **Test Soroban Contracts** - Rust contract tests
-- ✅ **Build** - Turbo build pipeline
+- ✅ **Build** - Turbo build pipeline (runs after typecheck)
+- ✅ **Build Demo App** - Vite build for demo app (runs after typecheck)
 - ✅ **Release** - npm package publishing
 
-## Commit Details
+## Commit History
 
-**Commit Hash:** 0662756 **Message:** `fix(ci): resolve all CI/CD workflow failures`
+### Initial Fixes (Commit: 0662756)
+
+**Message:** `fix(ci): resolve all CI/CD workflow failures`
 
 Changes:
 
@@ -119,6 +167,27 @@ Changes:
 - LICENSE file created (MIT)
 - pnpm-lock.yaml generated and committed
 
+### Typecheck & Vercel Fix (Commit: f035591)
+
+**Message:** `fix(ci): add build step before typecheck`
+
+Changes:
+
+- `.github/workflows/ci.yml` - Added build step before typecheck
+- `vercel.json` - Created root configuration for monorepo deployment
+- Verified locally: build and typecheck both pass
+
 ---
 
-**Status:** ✅ **CI Ready** - All workflows configured correctly for passing builds
+**Status:** ✅ **CI Ready** - All workflows configured correctly for passing builds **Deployment:**
+✅ **Vercel Ready** - Monorepo configuration properly set
+
+## Deployed Contracts (Testnet)
+
+All contracts successfully deployed to Stellar testnet on July 6, 2026:
+
+- **Smart Wallet:** `CBUEUWCNWF3Q5KCDA46SCBREGZUY5DVIF25T52D6MRYPKWWHJLLSWDP4`
+- **Session Keys:** `CBMJ52UOFODPM2THFP7E4ZO73LTPROEXRUPJO7LCSB6UTVIP7AO4JGT3`
+- **Spending Limits:** `CDVQB6HYHLBZRRA5SKO2M55HBVZ2PLEFCLDP6662WFK7QSKW6RJMVDA5`
+
+Deployer: `GC6C5LTM55PL46YKOQR7M6PKECQ6TJ66D6ZSLAUC6MYRM5DAYPVJ26CN`
