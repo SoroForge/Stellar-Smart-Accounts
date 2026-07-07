@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "cd .. && pnpm build --filter @stellar-smart-accounts/sdk --filter @stellar-smart-accounts/wallet-adapter && cd app && tsc && vite build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "lint": "eslint src --max-warnings 0"
