@@ -23,12 +23,15 @@ export class FreighterAdapter extends BaseAdapter {
 
   async isInstalled(): Promise<boolean> {
     // Check if Freighter extension is installed by checking for the global object
-    if (typeof window === "undefined") {
+    // Freighter injects itself into window.freighter in browser environments
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const win = globalThis as any;
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      return typeof win.window !== "undefined" && typeof win.window.freighter !== "undefined";
+    } catch {
       return false;
     }
-    // Freighter injects itself into window.freighter
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
-    return typeof (window as any).freighter !== "undefined";
   }
 
   async connect(): Promise<ConnectResult> {
