@@ -1,6 +1,0 @@
-{
-  "buildCommand": "cd ../.. && pnpm build --filter @stellar-smart-accounts/app",
-  "outputDirectory": "app/dist",
-  "installCommand": "pnpm install --frozen-lockfile",
-  "framework": "vite"
-}
