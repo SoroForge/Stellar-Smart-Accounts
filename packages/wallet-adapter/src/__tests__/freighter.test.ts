@@ -1,7 +1,6 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
 vi.mock("@stellar/freighter-api", () => ({
-  isConnected: vi.fn().mockResolvedValue({ isConnected: true }),
   getPublicKey: vi.fn().mockResolvedValue({ publicKey: "GTESTPUBLICKEY" }),
   getNetwork: vi.fn().mockResolvedValue({
     network: "Test SDF Network ; September 2015",
@@ -18,16 +17,25 @@ describe("FreighterAdapter", () => {
   beforeEach(() => {
     adapter = new FreighterAdapter();
     vi.clearAllMocks();
+    // Mock window.freighter
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (globalThis as any).window = { freighter: true };
   });
 
-  it("isInstalled returns true when Freighter is connected", async () => {
+  afterEach(() => {
+    // Cleanup
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    delete (globalThis as any).window;
+  });
+
+  it("isInstalled returns true when Freighter is available", async () => {
     const result = await adapter.isInstalled();
     expect(result).toBe(true);
   });
 
-  it("isInstalled returns false on error", async () => {
-    const { isConnected } = await import("@stellar/freighter-api");
-    (isConnected as ReturnType<typeof vi.fn>).mockRejectedValueOnce(new Error("nope"));
+  it("isInstalled returns false when window is not available", async () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    delete (globalThis as any).window;
     const result = await adapter.isInstalled();
     expect(result).toBe(false);
   });

@@ -1,4 +1,4 @@
-import { isConnected, getNetwork, getPublicKey, signTransaction } from "@stellar/freighter-api";
+import { getNetwork, getPublicKey, signTransaction } from "@stellar/freighter-api";
 
 import { BaseAdapter } from "../BaseAdapter.js";
 import type { ConnectResult, SignOptions } from "../types.js";
@@ -22,9 +22,13 @@ export class FreighterAdapter extends BaseAdapter {
   readonly name = "Freighter";
 
   async isInstalled(): Promise<boolean> {
+    // Check if Freighter extension is installed by checking for the global object
+    // Freighter injects itself into window.freighter in browser environments
     try {
-      const result = await isConnected();
-      return result.isConnected;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const win = globalThis as any;
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      return typeof win.window !== "undefined" && typeof win.window.freighter !== "undefined";
     } catch {
       return false;
     }
