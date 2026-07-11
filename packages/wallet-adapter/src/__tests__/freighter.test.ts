@@ -17,15 +17,15 @@ describe("FreighterAdapter", () => {
   beforeEach(() => {
     adapter = new FreighterAdapter();
     vi.clearAllMocks();
-    // Mock window.freighter
+    // Mock globalThis.freighter (not window.freighter)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (globalThis as any).window = { freighter: true };
+    (globalThis as any).freighter = true;
   });
 
   afterEach(() => {
     // Cleanup
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    delete (globalThis as any).window;
+    delete (globalThis as any).freighter;
   });
 
   it("isInstalled returns true when Freighter is available", async () => {
@@ -33,9 +33,9 @@ describe("FreighterAdapter", () => {
     expect(result).toBe(true);
   });
 
-  it("isInstalled returns false when window is not available", async () => {
+  it("isInstalled returns false when freighter is not available", async () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    delete (globalThis as any).window;
+    delete (globalThis as any).freighter;
     const result = await adapter.isInstalled();
     expect(result).toBe(false);
   });
