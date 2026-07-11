@@ -14,6 +14,7 @@ out/
 target/
 **/*.rs.bk
 Cargo.lock
+!/contracts/Cargo.lock
 **/test_snapshots/
 
 # Environment
