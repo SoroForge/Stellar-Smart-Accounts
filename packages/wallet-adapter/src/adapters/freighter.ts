@@ -28,7 +28,7 @@ export class FreighterAdapter extends BaseAdapter {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const win = globalThis as any;
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      return typeof win.window !== "undefined" && typeof win.window.freighter !== "undefined";
+      return typeof win.freighter !== "undefined";
     } catch {
       return false;
     }
