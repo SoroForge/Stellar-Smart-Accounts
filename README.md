@@ -220,8 +220,16 @@ For complete deployment details including WASM hashes, see
 
 ### Demo Application
 
-**Demo**: [https://stellar-smart-accounts.vercel.app](https://stellar-smart-accounts.vercel.app)
-_(coming soon)_
+🚀 **Live Demo**:
+[https://stellar-smart-accounts-app.vercel.app](https://stellar-smart-accounts-app.vercel.app)
+
+Try the interactive demo to:
+
+- Connect your Freighter wallet
+- Deploy a new smart wallet
+- Add/remove signers
+- Issue session keys
+- Configure spending limits
 
 ---
 
